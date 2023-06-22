@@ -5,3 +5,4 @@ pyngrok
 python-decouple
 python-dotenv
 boto3
+urllib3==1.26.6 
