@@ -3,3 +3,5 @@ openai
 twilio
 pyngrok
 python-decouple
+python-dotenv
+boto3
