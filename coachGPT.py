@@ -7,6 +7,8 @@ import requests
 
 app = Flask(__name__)
 
+chat_history = []
+
 def generate_answer(question):
     url = 'https://api.writesonic.com/v1/botsonic/botsonic/generate/5e1a2fdd-d763-4ceb-a688-c8da7122f8ad'
     headers = {
@@ -17,7 +19,7 @@ def generate_answer(question):
     }
     data = {
         'question': question,
-        'chat_history': [],
+        'chat_history': chat_history,
     }
     
     response = requests.post(url, headers=headers, json=data)
@@ -25,11 +27,18 @@ def generate_answer(question):
         response_data = response.json()
         if isinstance(response_data, list) and len(response_data) > 0:
             message = response_data[0]['data'].get('answer', '')
+            chat_history.append({
+                'message': question,
+                'sent': True
+            })
+            chat_history.append({
+                'message': message,
+                'sent': False
+            })
         else:
             message = 'No answer found.'
     else:
         message = 'An error occurred while generating the answer.'
-    print(message)
     
     return message
 
